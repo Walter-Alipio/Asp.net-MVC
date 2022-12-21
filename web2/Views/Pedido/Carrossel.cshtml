@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Carrossel";
+}
+@model List<Produto>;
+
+<h3>Catálogo</h3>
+
+<div id="my-carousel" class="carousel slide" data-bs-ride="carousel">
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+
+        @{
+            const int  TAMANHO_PAGINA =4;
+
+            int paginas = (int)Math.Ceiling((double)Model.Count() / TAMANHO_PAGINA);
+        }
+        @for(int pagina = 0; pagina < paginas; pagina++)
+        {   
+            //controla a exibição do carrocel
+            <section class="carousel-item @(pagina == 0 ? "active" : "" ) ">
+                <div class="row">
+
+                    @{
+                        var produtosDaPagina = Model.Skip(pagina * TAMANHO_PAGINA).Take(TAMANHO_PAGINA);
+                    }
+
+                    @foreach(var produto in produtosDaPagina)
+                    {
+                        <div class="col-md-3 col-sm-3 col-lg-3 ">
+                            <div class="card card-body">
+                                <div class="card-primary">
+                                    <img class="img-produto-carrossel" src="/img/produtos/large_@(produto.Codigo).jpg" />
+                                </div>
+                                <div class="card-secondary produto-footer">
+                                    <div class="produto-nome">@produto.Nome</div>
+                                    <div><h4><strong>R$ @produto.Preco</strong></h4></div>
+                                    <div class="text-center">
+                                        @* utilizando taghelpers *@
+                                        <a  
+                                            asp-controller="pedido" 
+                                            asp-action="carrinho"
+                                            asp-route-codigo="@produto.Codigo"
+                                            class="btn btn-success">Adicionar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+            
+                </div>
+            </section>
+        }
+
+    </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev " type="button" data-bs-target="#my-carousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+
+    <button class="carousel-control-next " type="button" data-bs-target="#my-carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+</div>

@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Carrinho";
+}
+
+@model IList<ItemPedido>;       
+
+<h3>Meu Carrinho</h3>
+
+<div class="card ">
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-6">
+                Item
+            </div>
+            <div class="col-md-2 text-center">
+                Preço Unitário
+            </div>
+            <div class="col-md-2 text-center">
+                Quantidade
+            </div>
+            <div class="col-md-2">
+                <span class="pull-right">
+                    Subtotal
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+
+    @foreach (var item in Model)
+    {
+        <div class="row row-center linha-produto">
+            <div class="col-md-3">
+                <img class="img-produto-carrinho" src="/img/produtos/large_@(item.Produto.Codigo).jpg" />
+            </div>
+            <div class="col-md-3">@item.Produto.Nome</div>
+            <div class="col-md-2 text-center">R$ @item.PrecoUnitario</div>
+            <div class="col-md-2 text-center">
+                <div class="input-group">
+                    
+                    <button class="btn btn-outline-primary">
+                        <span class="bi bi-caret-down"></span>
+                    </button>
+                   
+                    <input type="text" value="@(item.Quantidade)"
+                           class="form-control text-center" />
+                   
+                    <button class="btn btn-outline-primary">
+                        <span class="bi bi-caret-up"></span>
+                    </button>
+                    
+                </div>
+            </div>
+            <div class="col-md-2">
+                R$ <span class="pull-right" subtotal>
+                    @(item.Quantidade * item.PrecoUnitario)
+                </span>
+            </div>
+        </div>
+    }
+     
+
+    </div>
+    <div class="card-secondary">
+        <div class="row">
+            <div class="col-md-10">
+                <span numero-itens>
+                    Total: @(Model.Count())
+                    itens
+                </span>
+            </div>
+            <div class="col-md-2">
+                Total: R$ <span class="pull-right" total>
+                    @(Model.Sum(i => i.Quantidade * i.PrecoUnitario))
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <a class="btn btn-success" asp-controller="pedido"  asp-action="carrossel">
+                Adicionar Produtos
+            </a>
+            <a class="btn btn-success"  asp-controller="pedido"  asp-action="resumo">
+                Finalizar pedido
+                @* Preencher Cadastro *@
+            </a>
+        </div>
+    </div>
+</div>
