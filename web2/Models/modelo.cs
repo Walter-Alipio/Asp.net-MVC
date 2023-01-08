@@ -63,15 +63,23 @@ namespace web2.Models
     public string CEP { get; set; } = "";
   }
 
+  [DataContract]
   public class ItemPedido : BaseModel
   {
     [Required]
+    [DataMember]
     public Pedido? Pedido { get; private set; }
+
     [Required]
+    [DataMember]
     public Produto? Produto { get; private set; }
+
     [Required]
+    [DataMember]
     public int Quantidade { get; private set; }
+
     [Required]
+    [DataMember]
     public decimal PrecoUnitario { get; private set; }
 
     public ItemPedido()
@@ -85,6 +93,12 @@ namespace web2.Models
       Produto = produto;
       Quantidade = quantidade;
       PrecoUnitario = precoUnitario;
+    }
+
+    internal void AtualizaQuantidade(int quantidade)
+    {
+      System.Console.WriteLine($"Quantidade {quantidade}");
+      Quantidade = quantidade;
     }
   }
 

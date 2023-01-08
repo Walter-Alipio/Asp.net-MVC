@@ -1,11 +1,18 @@
 using Microsoft.EntityFrameworkCore;
-using web2.Models;
 using web2.Pepositories;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson();
+// AddJsonOptions(options =>
+//         {
+//           options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+//           options.JsonSerializerOptions.PropertyNamingPolicy = null;
+//           options.JsonSerializerOptions.IncludeFields = true;
+//         });
+
 //add temporary dependencies 
 builder.Services.AddTransient<IDataService, DataService>();
 builder.Services.AddTransient<IProdutoRepository, ProdutoRepository>();

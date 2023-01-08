@@ -30,7 +30,7 @@
 
     @foreach (var item in Model)
     {
-        <div class="row row-center linha-produto">
+        <div class="row row-center linha-produto" item-id="@item.Id">
             <div class="col-md-3">
                 <img class="img-produto-carrinho" src="/img/produtos/large_@(item.Produto.Codigo).jpg" />
             </div>
@@ -39,14 +39,19 @@
             <div class="col-md-2 text-center">
                 <div class="input-group">
                     
-                    <button class="btn btn-outline-primary">
+                    <button class="btn btn-outline-primary"
+                        onclick="carrinho.clickDecremento(this)"
+                    >
                         <span class="bi bi-caret-down"></span>
                     </button>
                    
                     <input type="text" value="@(item.Quantidade)"
-                           class="form-control text-center" />
+                        onblur="carrinho.updateQuantidade(this)"
+                        class="form-control text-center" />
                    
-                    <button class="btn btn-outline-primary">
+                    <button class="btn btn-outline-primary"
+                        onclick="carrinho.clickIncremento(this)"
+                    >
                         <span class="bi bi-caret-up"></span>
                     </button>
                     
@@ -92,3 +97,9 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <script src="~/js/carrinho.js">
+    </script>
+}
