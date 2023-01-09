@@ -81,6 +81,8 @@ namespace web2.Models
     [Required]
     [DataMember]
     public decimal PrecoUnitario { get; private set; }
+    [DataMember]
+    public decimal Subtotal => Quantidade * PrecoUnitario;
 
     public ItemPedido()
     {
@@ -97,7 +99,6 @@ namespace web2.Models
 
     internal void AtualizaQuantidade(int quantidade)
     {
-      System.Console.WriteLine($"Quantidade {quantidade}");
       Quantidade = quantidade;
     }
   }

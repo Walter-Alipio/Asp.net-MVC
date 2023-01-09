@@ -28,16 +28,36 @@ class Carrinho {
 	}
 
 	postQuantidade(data) {
-		console.log('entrei');
-		console.log(JSON.stringify(data));
 		$.ajax({
 			url: '/pedido/updatequantidade',
 			type: 'POST',
 			contentType: 'application/json',
 			dataType: 'json',
 			data: JSON.stringify(data),
+		}).done(response => {
+			let itemPedido = response.itemPedido;
+			let linhaDoItem = $('[item-id=' + itemPedido.id + ']');
+			linhaDoItem.find('input').val(itemPedido.quantidade);
+			linhaDoItem.find('[subtotal]').html(itemPedido.subtotal.duasCasas());
+			const carrinhoViewModel = response.carrinhoViewModel;
+			$('[numero-itens]').html(
+				`Total: ${carrinhoViewModel.itens.length} itens`
+			);
+			$('[total]').html(carrinhoViewModel.total.duasCasas());
+
+			if (itemPedido.quantidade == 0) {
+				linhaDoItem.remove();
+			}
+
+			debugger;
+
+			// console.log(JSON.stringify(itemPedido));
+			// console.log(JSON.stringify(carrinhoViewModel));
 		});
 	}
 }
 
 var carrinho = new Carrinho();
+Number.prototype.duasCasas = function () {
+	return this.toFixed(2).replace('.', ',');
+};

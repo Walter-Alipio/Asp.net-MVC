@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using web2.Models;
+using web2.Models.ViewModels;
 using web2.Pepositories;
 
 namespace web2.Controllers;
@@ -31,8 +32,10 @@ public class PedidoController : Controller
       _pedidoRepository.AddItem(codigo);
     }
 
-    Pedido pedido = _pedidoRepository.GetPedido();
-    return View(pedido.Itens);
+    var itens = _pedidoRepository.GetPedido().Itens;
+    CarrinhoViewModel carrinhoViewModel = new CarrinhoViewModel(itens);
+    return View(carrinhoViewModel);
+
   }
   public IActionResult Cadastro()
   {
@@ -45,9 +48,9 @@ public class PedidoController : Controller
   }
 
   [HttpPost]
-  public void UpdateQuantidade([FromBody] ItemPedido itemPedido)
+  public UpdateQuantidadeResponse UpdateQuantidade([FromBody] ItemPedido itemPedido)
   {
     System.Console.WriteLine($"Id: {itemPedido.Id}, Quantidade: {itemPedido.Quantidade}");
-    _itemRepository.UpdateQuantidade(itemPedido);
+    return _pedidoRepository.UpdateQuantidade(itemPedido);
   }
 }

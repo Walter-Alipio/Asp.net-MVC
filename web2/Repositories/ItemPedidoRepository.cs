@@ -4,7 +4,8 @@ namespace web2.Pepositories;
 
 public interface IItemPedidoRepository
 {
-  void UpdateQuantidade(ItemPedido itemPedido);
+  ItemPedido? GetItemPedido(int ItemPedidoId);
+  void RemoveItemPedido(int ItemPedidoId);
 }
 public class ItemPedidoRepository : BaseRepository<ItemPedido>, IItemPedidoRepository
 {
@@ -12,18 +13,16 @@ public class ItemPedidoRepository : BaseRepository<ItemPedido>, IItemPedidoRepos
   {
   }
 
-  public void UpdateQuantidade(ItemPedido itemPedido)
+  public ItemPedido? GetItemPedido(int ItemPedidoId)
   {
-    var itemPedidoDB =
-    _dbSet
-      .Where(ip => ip.Id == itemPedido.Id)
-      .SingleOrDefault();
-    System.Console.WriteLine($"Item: {(itemPedidoDB == null)}");
-    if (itemPedidoDB != null)
-    {
-      System.Console.WriteLine($"Item quantidade: {itemPedido.Quantidade} ");
-      itemPedidoDB.AtualizaQuantidade(itemPedido.Quantidade);
-      _contexto.SaveChanges();
-    }
+    return _dbSet
+    .Where(ip => ip.Id == ItemPedidoId)
+    .SingleOrDefault();
+  }
+
+  public void RemoveItemPedido(int ItemPedidoId)
+  {
+    _dbSet.Remove(GetItemPedido(ItemPedidoId));
+
   }
 }
