@@ -45,7 +45,9 @@ public class PedidoController : Controller
 
     return View(pedido.Cadastro);
   }
+
   [HttpPost]
+  [ValidateAntiForgeryToken]
   public IActionResult Resumo(Cadastro cadastro)
   {
     if (ModelState.IsValid) return View(_pedidoRepository.UpdateCadastro(cadastro));
@@ -54,6 +56,7 @@ public class PedidoController : Controller
   }
 
   [HttpPost]
+  [ValidateAntiForgeryToken]
   public UpdateQuantidadeResponse UpdateQuantidade([FromBody] ItemPedido itemPedido)
   {
     System.Console.WriteLine($"Id: {itemPedido.Id}, Quantidade: {itemPedido.Quantidade}");
