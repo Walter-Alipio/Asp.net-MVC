@@ -56,6 +56,7 @@ public class PedidoRepository : BaseRepository<Pedido>, IPedidoRepository
     var pedido = _dbSet
       .Include(p => p.Itens)
         .ThenInclude(i => i.Produto)
+      .Include(p => p.Cadastro)
       .Where(p => p.Id == pedidoId)
       .SingleOrDefault();
 
